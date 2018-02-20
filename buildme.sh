@@ -492,6 +492,26 @@ PkgLSWAVIUTL()
 	
 }
 
+PkgLSWVAP()
+{
+	# Since this depends on a number of components, esp. FFmpeg. Always rebuild.
+	cd $HOME
+	GitGet lsw $URL_LSW
+	cd "${PATH_SRC}/lsw/VapourSynth"
+	cp $HOME/LSWVAP*.patch ./
+	for pfile in *.patch
+		do
+			patch -p0 -b -t -i $pfile
+		done
+	rm *.patch
+	cd "${PATH_SRC}/lsw/VapourSynth"
+	./configure --prefix=$PATH_PREFIX  --target-os=mingw32 --extra-cflags="-static-libgcc -static-libstdc++" --extra-ldflags=" -static "|| exit $?
+	make || exit $?
+	printf "%d\n" $?
+	cp ${PATH_SRC}/lsw/VapourSynth/*.dll ${PATH_PREFIX}/lib || exit $?
+	cd $HOME
+	
+}
 
 ########## MAIN STARTS HERE ###############
 clear
@@ -505,3 +525,4 @@ PkgZLIB
 PkgLSMASH
 PkgFFMPEG
 PkgLSWAVIUTL
+PkgLSWVAP
