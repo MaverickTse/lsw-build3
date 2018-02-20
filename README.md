@@ -1,7 +1,7 @@
 # lsw-build3 (2018)
 Powershell and MSYS2-based L-SMASH Works build script.
 
-Currently, this build AviUtl plugins **ONLY**.
+Currently, this build AviUtl and VapourSynth plugins **ONLY**.
 
 ## Usage
 
