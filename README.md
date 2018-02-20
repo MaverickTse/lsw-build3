@@ -7,7 +7,7 @@ Currently, this build AviUtl plugins **ONLY**.
 
 Run the powershell script `lsw-bld3.ps1` with or without parameter. When invoked without a parameter, MSYS2 will be installed to `C:\MSYS64`. To specify installation folder, provide the folder path as a parameter.
 
-No user intervention is required if everything goes smoothly.
+No user intervention is required if everything goes smoothly. :tada:
 
 ## Building updates
 Run `msys2.exe` then run the bash script `buildme.sh`
@@ -33,12 +33,12 @@ PkgLSMASH()
 	pkg-config liblsmash --libs 
 }
 ```
-The key is `BuildPackage` with arguments `<name> <download URL> <extra build commands> <0 for out-of-source build> <1 to skip make install> <folder with patches> <1 to force rebuild>`. Note that the patching facilities may not work due to `-p0`.
+The key is `BuildPackage` with arguments `<name> <download URL> <extra build commands> <0 for out-of-source build> <1 to skip make install> <folder with patches> <1 to force rebuild>`. Note that the patching facilities may not work due to `-p0`. Note that `BuildPackage` does not work if `configure` or `CMakeLists.txt` resides in some strange location, as in the case of L-SMASH Works.
 
 ## Precautions
-* MSYS2 internal change often, and may break without notice. Thought this script is more robust than lsw-build2.
-* FFmpeg API also changed quite a bit in recent time. Also breaks without notice.
-* **DO NOT INSTALL CMake via PACMAN**. The Cmake that comes with pacman has no MSYS Makefile generator.
+* MSYS2 internal change often, and may break without notice :fu: . Though this script is more robust than lsw-build2.
+* FFmpeg API also changed quite a bit in recent time. Also breaks without notice :fu: .
+* **DO NOT INSTALL CMake via PACMAN**. The CMake that comes with pacman has no MSYS Makefile generator :fu: .
 
 ## Peace-of-mind
-Unlike lsw-build2, **these scripts makes no modification to MSYS2 internals**. You can go ahead to install gcc toolchains with pacman, just don't install cmake.
+Unlike lsw-build2, **these scripts makes no modification to MSYS2 internals**. You can go ahead to install gcc toolchains with pacman :tada:, just don't install cmake.
