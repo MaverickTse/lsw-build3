@@ -3,6 +3,8 @@ Powershell and MSYS2-based L-SMASH Works build script.
 
 Currently, this build AviUtl and VapourSynth plugins **ONLY**.
 
+You can spare the trouble and simply get the Travis auto-build [HERE](https://github.com/MaverickTse/LSW-AutoCIBuild/releases/latest)
+
 ## Usage
 
 Run the powershell script `lsw-bld3.ps1` with or without parameter. When invoked without a parameter, MSYS2 will be installed to `C:\MSYS64`. To specify installation folder, provide the folder path as a parameter.
