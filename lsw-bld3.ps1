@@ -35,7 +35,7 @@ function Install-MSYS2 {
     }
     
     cd $targetdrive
-    mkdir -Path $temp -Force
+    mkdir -Path $temp -Force | Out-Null
     cd $temp
 
     # Scrap Sourceforge download page for MSYS2
@@ -58,7 +58,7 @@ function Install-MSYS2 {
     .\7za.exe x msys2.tar.xz | Out-Null
     # got msys2.tar
     rm msys2.tar.xz
-    .\7za.exe x msys2.tar
+    .\7za.exe x msys2.tar | Out-Null
     # Clean-up
     rm msys2.tar
     rm 7z.zip
@@ -103,7 +103,7 @@ function Install-MSYS2 {
   $targetmingw = Join-Path -Path $path -ChildPath "i686-posix-sjlj"
   if(!(Test-Path -Path $targetmingw)){
     if(!(Test-Path -Path $temp)){
-      mkdir -Path $temp -Force
+      mkdir -Path $temp -Force | Out-Null
     }
     cd $temp
     # Get Mingw-w64 Link
@@ -120,6 +120,7 @@ function Install-MSYS2 {
     ./7za.exe x i686-posix-sjlj.7z | Out-Null
     # Rename and move Mingw-w64
     $targetmingw = Join-Path -Path $path -ChildPath "i686-posix-sjlj"
+    Write-Output $targetmingw
     mv mingw32 $targetmingw
   }
   cd $PSScriptRoot
@@ -149,9 +150,3 @@ Write-Output "AviUtl Plugins are inside ~/Sandbox/Install/lib"
 Write-Output "L-SMASH binaries are inside ~/Sandbox/Install/bin"
 Write-Output "To build updates, run $($msysfolder)/msys2.exe "
 Write-Output "then invoke ./buildme "
-
-
-
-
-
-
