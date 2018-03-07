@@ -1,4 +1,4 @@
-﻿param(
+param(
     [string]$msysfolder = "C:\msys64"
 )
 
@@ -55,7 +55,7 @@ function Install-MSYS2 {
 
     # Unpack MSYS2
     Write-Output "Unpacking MSYS2"
-    .\7za.exe x msys2.tar.xz
+    .\7za.exe x msys2.tar.xz | Out-Null
     # got msys2.tar
     rm msys2.tar.xz
     .\7za.exe x msys2.tar
@@ -69,14 +69,14 @@ function Install-MSYS2 {
     # Ref: https://github.com/TeaCI/msys2-docker/blob/master/msys2-init
     Write-Output "Initializing MSYS2 installation..."
     cd $path
-    .\msys2_shell.cmd -c "pacman -Syy --noconfirm --noprogressbar pacman"
-    .\msys2_shell.cmd -c "pacman -Suu --needed --noconfirm --noprogressbar"
-    .\msys2_shell.cmd -c "pacman -Suu --needed --noconfirm --noprogressbar && pacman -Scc --noconfirm"
-    .\msys2_shell.cmd -c "pacman -S --needed --noconfirm --noprogressbar base-devel &&  pacman -Scc --noconfirm"
-    .\msys2_shell.cmd -c "pacman -S --needed --noconfirm --noprogressbar VCS && pacman -Scc --noconfirm"
-    .\msys2_shell.cmd -c "pacman -S --needed --noconfirm --noprogressbar yasm nasm nano p7zip unzip atool && pacman -Scc --noconfirm"
-    .\msys2_shell.cmd -c "cp -f /usr/bin/false /usr/bin/tput"
-    .\autorebase.bat
+    .\msys2_shell.cmd -c "pacman -Syy --noconfirm --noprogressbar pacman" | Out-Null
+    .\msys2_shell.cmd -c "pacman -Suu --needed --noconfirm --noprogressbar" | Out-Null
+    .\msys2_shell.cmd -c "pacman -Suu --needed --noconfirm --noprogressbar && pacman -Scc --noconfirm" | Out-Null
+    .\msys2_shell.cmd -c "pacman -S --needed --noconfirm --noprogressbar base-devel &&  pacman -Scc --noconfirm" | Out-Null
+    .\msys2_shell.cmd -c "pacman -S --needed --noconfirm --noprogressbar VCS && pacman -Scc --noconfirm" | Out-Null
+    .\msys2_shell.cmd -c "pacman -S --needed --noconfirm --noprogressbar yasm nasm nano p7zip unzip atool && pacman -Scc --noconfirm" | Out-Null
+    .\msys2_shell.cmd -c "cp -f /usr/bin/false /usr/bin/tput" | Out-Null
+    .\autorebase.bat | Out-Null
   
   }
   # End of MSYS2 base installation
@@ -117,7 +117,7 @@ function Install-MSYS2 {
       Expand-Archive -Path "./7z.zip" -DestinationPath "./" -Force
     }
     # Extract Mingw-w64
-    ./7za.exe x i686-posix-sjlj.7z
+    ./7za.exe x i686-posix-sjlj.7z | Out-Null
     # Rename and move Mingw-w64
     $targetmingw = Join-Path -Path $path -ChildPath "i686-posix-sjlj"
     mv mingw32 $targetmingw
@@ -140,15 +140,18 @@ Clear-Host
 Install-MSYS2 -path $msysfolder
 Write-Output "Finished MSYS2 Setup"
 Write-Output "Building..."
-cd $path
+cd $msysfolder
 $sw = [Diagnostics.Stopwatch]::StartNew()
-.\msys2_shell.cmd -c "source ~/buildme"
+.\msys2_shell.cmd -c "source ~/buildme.sh" | Out-Null
 $sw.Stop()
 $sw.Elapsed
 Write-Output "AviUtl Plugins are inside ~/Sandbox/Install/lib"
 Write-Output "L-SMASH binaries are inside ~/Sandbox/Install/bin"
-Write-Output "To build updates, run $($path)/msys2.exe "
+Write-Output "To build updates, run $($msysfolder)/msys2.exe "
 Write-Output "then invoke ./buildme "
+
+
+
 
 
 
