@@ -77,7 +77,7 @@ function Install-MSYS2 {
     .\msys2_shell.cmd -c "pacman -Suu --needed --noconfirm --noprogressbar && pacman -Scc --noconfirm" | Out-Null
     .\msys2_shell.cmd -c "pacman -S --needed --noconfirm --noprogressbar base-devel &&  pacman -Scc --noconfirm" | Out-Null
     .\msys2_shell.cmd -c "pacman -S --needed --noconfirm --noprogressbar VCS && pacman -Scc --noconfirm" | Out-Null
-    .\msys2_shell.cmd -c "pacman -S --needed --noconfirm --noprogressbar yasm nasm nano p7zip unzip atool && pacman -Scc --noconfirm" | Out-Null
+    .\msys2_shell.cmd -c "pacman -S --needed --noconfirm --noprogressbar yasm nasm nano p7zip unzip atool make pkg-config && pacman -Scc --noconfirm" | Out-Null
     .\msys2_shell.cmd -c "cp -f /usr/bin/false /usr/bin/tput" | Out-Null
     .\autorebase.bat | Out-Null
   
