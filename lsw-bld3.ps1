@@ -2,6 +2,9 @@ param(
     [string]$msysfolder = "C:\msys64"
 )
 
+# Enable TLS1.1 and 1.2
+[System.Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12 -bor [Net.SecurityProtocolType]::Tls11
+
 # Hardcoded constant section
 $url_7z = "http://www.7-zip.org/a/7za920.zip"
 $url_msys2base = "https://sourceforge.net/projects/msys2/files/Base/x86_64/"
