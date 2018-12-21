@@ -89,9 +89,8 @@ function Install-MSYS2 {
     cd $temp
     
     $url_cmake = (Invoke-WebRequest -Uri $url_cmakebase).Links | Where({$_.href -like "*x64.zip"})| Where ({$_.href -notlike "*rc*"}) | Select-Object -First 1 -ExpandProperty href
-    $url_cmake = "https://cmake.org$($url_cmake)"
     Write-Output $url_cmake
-    Start-BitsTransfer -Source $url_cmake -Destination "cmake.zip"
+    Invoke-WebRequest -Uri $url_cmake -OutFile "cmake.zip"
     Expand-Archive -Path "./cmake.zip" -DestinationPath "./" -Force
     $cmakeroot= ls -Name -Directory cmake*
     $cmakebin = Join-Path -Path $cmakeroot -ChildPath "/bin"
