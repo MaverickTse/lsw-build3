@@ -2,6 +2,9 @@ param(
     [string]$msysfolder = "C:\msys64"
 )
 
+# Enable TLS1.1 and 1.2
+[System.Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12 -bor [Net.SecurityProtocolType]::Tls11
+
 # Hardcoded constant section
 $url_7z = "http://www.7-zip.org/a/7za920.zip"
 $url_msys2base = "https://sourceforge.net/projects/msys2/files/Base/x86_64/"
@@ -74,7 +77,7 @@ function Install-MSYS2 {
     .\msys2_shell.cmd -c "pacman -Suu --needed --noconfirm --noprogressbar && pacman -Scc --noconfirm" | Out-Null
     .\msys2_shell.cmd -c "pacman -S --needed --noconfirm --noprogressbar base-devel &&  pacman -Scc --noconfirm" | Out-Null
     .\msys2_shell.cmd -c "pacman -S --needed --noconfirm --noprogressbar VCS && pacman -Scc --noconfirm" | Out-Null
-    .\msys2_shell.cmd -c "pacman -S --needed --noconfirm --noprogressbar yasm nasm nano p7zip unzip atool && pacman -Scc --noconfirm" | Out-Null
+    .\msys2_shell.cmd -c "pacman -S --needed --noconfirm --noprogressbar yasm nasm nano p7zip unzip atool make pkg-config && pacman -Scc --noconfirm" | Out-Null
     .\msys2_shell.cmd -c "cp -f /usr/bin/false /usr/bin/tput" | Out-Null
     .\autorebase.bat | Out-Null
   
@@ -86,9 +89,8 @@ function Install-MSYS2 {
     cd $temp
     
     $url_cmake = (Invoke-WebRequest -Uri $url_cmakebase).Links | Where({$_.href -like "*x64.zip"})| Where ({$_.href -notlike "*rc*"}) | Select-Object -First 1 -ExpandProperty href
-    $url_cmake = "https://cmake.org$($url_cmake)"
     Write-Output $url_cmake
-    Start-BitsTransfer -Source $url_cmake -Destination "cmake.zip"
+    Invoke-WebRequest -Uri $url_cmake -OutFile "cmake.zip"
     Expand-Archive -Path "./cmake.zip" -DestinationPath "./" -Force
     $cmakeroot= ls -Name -Directory cmake*
     $cmakebin = Join-Path -Path $cmakeroot -ChildPath "/bin"
